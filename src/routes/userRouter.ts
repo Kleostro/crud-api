@@ -17,4 +17,8 @@ userRouter.post("/", (req: Request, res: Response) => {
   userController.createUser(req, res);
 });
 
+userRouter.put("/:id", (req: Request, res: Response) => {
+  userController.updateUser(req, res);
+});
+
 export default userRouter;

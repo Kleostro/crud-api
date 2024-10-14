@@ -19,6 +19,22 @@ class UserService {
     this.users.push(newUser);
     return newUser;
   }
+
+  updateUser(id: string, userData: Omit<User, "id">): User | null {
+    const user = this.getUserById(id);
+
+    if (!user) {
+      return null;
+    }
+
+    const updatedUser = { ...user, ...userData };
+
+    this.users = this.users.map((user) =>
+      user.id === id ? updatedUser : user
+    );
+
+    return updatedUser;
+  }
 }
 
 export default UserService;

@@ -46,6 +46,25 @@ class UserController {
     const newUser = this.userService.createUser({ username, age, hobbies });
     res.status(201).json(newUser);
   }
+
+  updateUser(req: Request, res: Response) {
+    const { id } = req.params;
+    const { username, age, hobbies } = req.body;
+
+    if (!validate(id)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
+
+    const updatedUser = this.userService.updateUser(id, {
+      username,
+      age,
+      hobbies,
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "User not found" });
+    }
+  }
 }
 
 export default UserController;
