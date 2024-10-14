@@ -3,8 +3,12 @@ import User from "../models/User";
 class UserService {
   private users: User[] = [];
 
-  async getUsers() {
+  getUsers() {
     return this.users;
+  }
+
+  getUserById(id: string) {
+    return this.users.find((user) => user.id === id);
   }
 }
 
