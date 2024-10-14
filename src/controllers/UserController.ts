@@ -65,6 +65,22 @@ class UserController {
       return res.status(404).json({ message: "User not found" });
     }
   }
+
+  deleteUser(req: Request, res: Response) {
+    const { id } = req.params;
+
+    if (!validate(id)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
+
+    const success = this.userService.deleteUser(id);
+
+    if (!success) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.status(204).send();
+  }
 }
 
 export default UserController;

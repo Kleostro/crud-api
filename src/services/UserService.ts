@@ -35,6 +35,17 @@ class UserService {
 
     return updatedUser;
   }
+
+  deleteUser(id: string): boolean {
+    const user = this.getUserById(id);
+
+    if (!user) {
+      return false;
+    }
+
+    this.users = this.users.filter((user) => user.id !== id);
+    return true;
+  }
 }
 
 export default UserService;
