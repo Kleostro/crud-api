@@ -13,4 +13,8 @@ userRouter.get("/:id", (req: Request, res: Response) => {
   userController.getUserById(req, res);
 });
 
+userRouter.post("/", (req: Request, res: Response) => {
+  userController.createUser(req, res);
+});
+
 export default userRouter;

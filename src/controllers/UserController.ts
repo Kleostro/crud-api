@@ -30,6 +30,22 @@ class UserController {
 
     res.status(200).json(user);
   }
+
+  createUser(req: Request, res: Response) {
+    const { username, age, hobbies } = req.body;
+
+    if (
+      typeof username !== "string" ||
+      typeof age !== "number" ||
+      !Array.isArray(hobbies) ||
+      hobbies.some((hobby) => typeof hobby !== "string")
+    ) {
+      return res.status(400).json({ message: "Invalid user data" });
+    }
+
+    const newUser = this.userService.createUser({ username, age, hobbies });
+    res.status(201).json(newUser);
+  }
 }
 
 export default UserController;
