@@ -1,28 +1,30 @@
 import { Request, Response, Router } from "express";
 import UserController from "../controllers/UserController";
-import UserService from "../services/UserService";
 
-const userRouter = Router();
-const userController = new UserController(new UserService());
+const userRouter = (userController: UserController) => {
+  const router = Router();
 
-userRouter.get("/", (req: Request, res: Response) => {
-  userController.getUsers(req, res);
-});
+  router.get("/", (req: Request, res: Response) => {
+    userController.getUsers(req, res);
+  });
 
-userRouter.get("/:id", (req: Request, res: Response) => {
-  userController.getUserById(req, res);
-});
+  router.get("/:id", (req: Request, res: Response) => {
+    userController.getUserById(req, res);
+  });
 
-userRouter.post("/", (req: Request, res: Response) => {
-  userController.createUser(req, res);
-});
+  router.post("/", (req: Request, res: Response) => {
+    userController.createUser(req, res);
+  });
 
-userRouter.put("/:id", (req: Request, res: Response) => {
-  userController.updateUser(req, res);
-});
+  router.put("/:id", (req: Request, res: Response) => {
+    userController.updateUser(req, res);
+  });
 
-userRouter.delete("/:id", (req: Request, res: Response) => {
-  userController.deleteUser(req, res);
-});
+  router.delete("/:id", (req: Request, res: Response) => {
+    userController.deleteUser(req, res);
+  });
+
+  return router;
+};
 
 export default userRouter;

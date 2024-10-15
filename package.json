@@ -5,6 +5,7 @@
   "scripts": {
     "start:dev": "nodemon --exec ts-node src/server.ts",
     "start:prod": "npm run build && node dist/server.js",
+    "start:multi": "npm run build && node dist/cluster.js",
     "build": "tsc",
     "test": "jest"
   },

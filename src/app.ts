@@ -1,12 +1,17 @@
 import express from "express";
 import userRouter from "./routes/userRouter";
 import { errorHandler, notFoundHandler } from "./core/errors/errorHandler";
+import UserController from "./controllers/UserController";
 
-const app = express();
-app.use(express.json());
-app.use("/api/users", userRouter);
+const createApp = (userController: UserController) => {
+  const app = express();
+  app.use(express.json());
+  app.use("/api/users", userRouter(userController));
 
-app.use(notFoundHandler);
-app.use(errorHandler);
+  app.use(notFoundHandler);
+  app.use(errorHandler);
 
-export default app;
+  return app;
+};
+
+export default createApp;

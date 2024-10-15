@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import UserService from "../services/UserService";
 import { validate } from "uuid";
-import User from "../models/User";
 
 class UserController {
   private userService: UserService;
@@ -10,19 +9,19 @@ class UserController {
     this.userService = userService;
   }
 
-  getUsers(req: Request, res: Response) {
-    const users = this.userService.getUsers();
+  async getUsers(req: Request, res: Response) {
+    const users = await this.userService.getUsers();
     res.status(200).json(users);
   }
 
-  getUserById(req: Request, res: Response) {
+  async getUserById(req: Request, res: Response) {
     const { id } = req.params;
 
     if (!validate(id)) {
       return res.status(400).json({ message: "Invalid user ID" });
     }
 
-    const user = this.userService.getUserById(id);
+    const user = await this.userService.getUserById(id);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -31,7 +30,7 @@ class UserController {
     res.status(200).json(user);
   }
 
-  createUser(req: Request, res: Response) {
+  async createUser(req: Request, res: Response) {
     const { username, age, hobbies } = req.body;
 
     if (
@@ -43,11 +42,15 @@ class UserController {
       return res.status(400).json({ message: "Invalid user data" });
     }
 
-    const newUser = this.userService.createUser({ username, age, hobbies });
+    const newUser = await this.userService.createUser({
+      username,
+      age,
+      hobbies,
+    });
     res.status(201).json(newUser);
   }
 
-  updateUser(req: Request, res: Response) {
+  async updateUser(req: Request, res: Response) {
     const { id } = req.params;
     const { username, age, hobbies } = req.body;
 
@@ -55,7 +58,7 @@ class UserController {
       return res.status(400).json({ message: "Invalid user ID" });
     }
 
-    const updatedUser = this.userService.updateUser(id, {
+    const updatedUser = await this.userService.updateUser(id, {
       username,
       age,
       hobbies,
@@ -66,14 +69,14 @@ class UserController {
     }
   }
 
-  deleteUser(req: Request, res: Response) {
+  async deleteUser(req: Request, res: Response) {
     const { id } = req.params;
 
     if (!validate(id)) {
       return res.status(400).json({ message: "Invalid user ID" });
     }
 
-    const success = this.userService.deleteUser(id);
+    const success = await this.userService.deleteUser(id);
 
     if (!success) {
       return res.status(404).json({ message: "User not found" });
